@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:hccPlayer;assembly=hccPlayer"
+             x:Class="hccPlayer.HybridWebViewPage">
+    <ContentPage.Content>
+        <Grid x:Name="gridLayout">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="col1" Width="20*" />
+                <ColumnDefinition x:Name="col2" Width="80*" />
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Row="0" Grid.Column="0">
+                <Button Text=">>>" x:Name="btnMenu" Clicked="btnMenu_Clicked"/>
+            </StackLayout>
+            <StackLayout x:Name="extendedMenu" Grid.Row="1" Grid.Column="0">
+                <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
+
+                <Entry x:Name="tbUrl" Text="https://www.google.de"/>
+                <Button Text="goto"  Clicked="btnGoto_Clicked"/>
+                <Button Text="explore" x:Name="explore" Clicked="explore_Clicked"/>
+                <Picker x:Name="cmbSamples"></Picker>
+                <Editor x:Name="code" HeightRequest="500" Text="navigate('https://www.bing.de')">
+                    <Editor.BackgroundColor>
+                        <OnPlatform x:TypeArguments="Color"
+                                iOS="#eeeeee"
+                                Android="#eeeeee"
+                                WinPhone="#eeeeee" />
+                    </Editor.BackgroundColor>
+                </Editor>
+                <Button Text="execute" x:Name="btnExecute" Clicked="btnExecute_Clicked"/>
+                <Editor x:Name="lblIDs" Text="..." HeightRequest = "500"/>
+            </StackLayout>
+
+            <!-- Uri="http://www.google.de"   -->
+            <local:HybridWebView x:Name="hybridWebView"  Grid.Row="1" Grid.Column="1" 
+                                 HorizontalOptions="LayoutOptions.FillAndExpand" 
+                                 VerticalOptions="LayoutOptions.FillAndExpand"
+                                 Uri="http://localhost:8080"
+                                 />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

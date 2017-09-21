@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<samples>
+  <sample desc="Framed Divs">
+    JQuery('div')
+    .css('border-width','2px')
+    .css('border-style','solid')
+    .css('border-color','green')
+  </sample>
+  <sample desc="set text and search">    
+    JQuery('#lst-ib')
+        .css('background-color','yellow')
+        .text('abc');
+    wait(100,function(jsonStr){ 
+    	JQuery('[name="btnK"]').submit();
+    })
+  </sample>
+  <sample desc="goto hmsconv.com">
+    navigate('http://www.hmsconv.com',function(jsonStr){
+    wait(2000,function(jsonStr){
+    JQuery('[href="#portfolioModal1"]').click();
+    wait(2000,function(jsonStr){
+    JQuery('[class*="close-modal"]').click();
+    });
+    });
+    });
+  </sample>
+  <sample desc="List IDs">
+    function l(a){
+      print(a);
+    }    
+    JQuery('[id]').attr('id',l);
+  </sample>
+  <sample desc="Test1">
+    function l(a){
+    print(a);
+    }
+    function createLink(){
+    var link = document.createElement('a');
+    link.setAttribute('href','http://www.bing.de');
+    link.setAttribute('id','newLink');
+    }
+    createLink();
+    JQuery('[#newLink]').attr('id',l);
+  </sample>
+</samples>
