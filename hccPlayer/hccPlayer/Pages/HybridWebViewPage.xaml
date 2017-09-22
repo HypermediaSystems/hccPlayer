@@ -17,22 +17,39 @@
                 <Button Text=">>>" x:Name="btnMenu" Clicked="btnMenu_Clicked"/>
             </StackLayout>
             <StackLayout x:Name="extendedMenu" Grid.Row="1" Grid.Column="0">
-                <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
-
-                <Entry x:Name="tbUrl" Text="https://www.google.de"/>
-                <Button Text="goto"  Clicked="btnGoto_Clicked"/>
-                <Button Text="explore" x:Name="explore" Clicked="explore_Clicked"/>
-                <Picker x:Name="cmbSamples"></Picker>
-                <Editor x:Name="code" HeightRequest="500" Text="navigate('https://www.bing.de')">
-                    <Editor.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color"
+                <Button Text="Restore" x:Name="btnRestoreTitle" local:Tag.Tag="frameRestore" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameRestore"  IsVisible="false">
+                    <StackLayout>
+                        <Entry x:Name="tbRestoreUrl" Text="http://192.168.30.103:3000/"/>
+                        <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
+                        <Button Text="Backup" x:Name="btnBackup" Clicked="btnBackup_Clicked"/>
+                    </StackLayout>
+                </Frame>
+                <Button Text="Navigate" x:Name="btnNavigateTitle" local:Tag.Tag="frameNavigate" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameNavigate"  IsVisible="false">
+                <StackLayout >
+                    <Entry x:Name="tbUrl" Text="https://www.google.de"/>
+                    <Button Text="goto"  Clicked="btnGoto_Clicked"/>
+                </StackLayout>
+                </Frame>
+                <Button Text="Explore" x:Name="btnExploreTitle" local:Tag.Tag="frameExplore" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameExplore" IsVisible="false">
+                    <StackLayout >
+                        <Button Text="explore" x:Name="explore" Clicked="explore_Clicked"/>
+                        <Picker x:Name="cmbSamples"></Picker>
+                        <Editor x:Name="code" HeightRequest="500" Text="navigate('https://www.bing.de')">
+                            <Editor.BackgroundColor>
+                                <OnPlatform x:TypeArguments="Color"
                                 iOS="#eeeeee"
                                 Android="#eeeeee"
                                 WinPhone="#eeeeee" />
-                    </Editor.BackgroundColor>
-                </Editor>
-                <Button Text="execute" x:Name="btnExecute" Clicked="btnExecute_Clicked"/>
-                <Editor x:Name="lblIDs" Text="..." HeightRequest = "500"/>
+                            </Editor.BackgroundColor>
+                        </Editor>
+                        <Button Text="execute" x:Name="btnExecute" Clicked="btnExecute_Clicked"/>
+                        <Editor x:Name="lblIDs" Text="..." HeightRequest = "500"/>
+                    </StackLayout>
+                </Frame>
+
             </StackLayout>
 
             <!-- Uri="http://www.google.de"   -->
@@ -43,5 +60,6 @@
                                  />
 
         </Grid>
+
     </ContentPage.Content>
 </ContentPage>

@@ -26,7 +26,7 @@ namespace hccPlayer
 
             string serverUrl = hybridWebView.startServer("http://www.leaflon.test", SQL);
 
-            hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), "index.html");
+            // hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), "index.html");
 
             // this is defined in the XAML file
             hybridWebView.RegisterAction(data => {
@@ -305,11 +305,12 @@ namespace hccPlayer
 
         private async void btnRestore_Clicked(object sender, EventArgs e)
         {
-            string serverUrl = "http://192.168.30.103:3000/";
+            string serverUrl = tbRestoreUrl.Text.Trim();
             serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
             try
             {
-                await hybridWebView.hc.RestoreAsync(serverUrl);
+                Boolean ret = await hybridWebView.hc.RestoreAsync(serverUrl);
+
 
             }
             catch (Exception)
@@ -318,6 +319,40 @@ namespace hccPlayer
                 throw;
             }
         }
+        private void btnBackup_Clicked(object sender, EventArgs e)
+        {
+            ModalDialog.showMessage(gridLayout, "HccPlayer", "Meldung", ModalDialog.Buttons.OK, () =>
+            {
+
+                ModalDialog.showQuestion(gridLayout, "HccPlayer", "Do you want to backup the local database?", ModalDialog.Buttons.YESNO,
+                    async () =>
+                {
+                    string serverUrl = tbRestoreUrl.Text.Trim();
+                    serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
+                    try
+                    {
+                        Boolean ret = await hybridWebView.hc.BackupAsync(serverUrl);
+                    }
+                    catch (Exception)
+                    {
+                        // ToDo log this error
+                        throw;
+                    }
+                }, () => { });
+            });
+        }
+        private void btnAccordionTitle_Clicked(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string tag = Tag.GetTag(btn);
+
+            Frame sl = btn.Parent.FindByName<Frame>(tag);
+            if( sl != null )
+                sl.IsVisible = !sl.IsVisible;
+        }
+       
+        
+
     }
     class Sample
     {
