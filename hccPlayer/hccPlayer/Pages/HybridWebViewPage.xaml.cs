@@ -26,7 +26,7 @@ namespace hccPlayer
 
             string serverUrl = hybridWebView.startServer("http://www.leaflon.test", SQL);
 
-            // hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), "index.html");
+            hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), "index.html");
 
             // this is defined in the XAML file
             hybridWebView.RegisterAction(data => {
@@ -294,7 +294,7 @@ namespace hccPlayer
 
         private async void explore_Clicked(object sender, EventArgs e)
         {
-            jsutil ju = new jsutil();
+            JsUtil ju = new JsUtil();
             ju.setSelector("[id],[name]");
             ju.setFunction("node.title = node.name + '#' + node.id;");
 

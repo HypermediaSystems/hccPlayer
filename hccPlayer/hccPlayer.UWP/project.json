@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "HttpCachedClient.HMS": "1.0.53",
+    "HttpCachedClient.HMS": "1.0.56",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Xamarin.Forms": "2.3.4.270"
   },

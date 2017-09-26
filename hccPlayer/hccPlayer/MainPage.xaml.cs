@@ -7,9 +7,9 @@ using Xamarin.Forms;
 
 namespace hccPlayer
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPagexxx : ContentPage
     {
-        public MainPage()
+        public MainPagexxx()
         {
             InitializeComponent();
         }

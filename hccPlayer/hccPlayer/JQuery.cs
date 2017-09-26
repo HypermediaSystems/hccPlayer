@@ -10,7 +10,7 @@ namespace hccPlayer
     class JQuery
     {
         private HybridWebView hybridWebView;
-        private jsutil ju;
+        private JsUtil ju;
         // JQuery("#btnK,#btnG").css("background-color","red");
         public JQuery(HybridWebView hybridWebView,string selector)
         {
@@ -20,7 +20,7 @@ namespace hccPlayer
             {
                 selector = selector.Substring(1, selector.Length - 2);
             }
-            ju = new jsutil();
+            ju = new JsUtil();
             // ToDo what about colon inside a selector?
             string[] parts = selector.Split(',');
 

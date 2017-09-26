@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace hccPlayer
 {
-    class jsutil
+    class JsUtil
     {
         string name;
         string id;
@@ -22,7 +22,7 @@ namespace hccPlayer
         public Boolean hasError = false;
         public string errStr;
 
-        public jsutil()
+        public JsUtil()
         {
             this.name = null;
             this.id = null;
@@ -37,33 +37,33 @@ namespace hccPlayer
             this.jsReturn = "";
             this.jsReturnFunction = "";
         }
-        public static jsutil createByName(string name)
+        public static JsUtil createByName(string name)
         {
-            jsutil ju = new jsutil();
+            JsUtil ju = new JsUtil();
 
             ju.selectByAttribute("name", name);
 
             return ju;
         }
-        public static jsutil createByNames(string[] names)
+        public static JsUtil createByNames(string[] names)
         {
-            jsutil ju = new jsutil();
+            JsUtil ju = new JsUtil();
             ju.jsSelector = "";
             foreach(var n in names)
                 ju.addSelectByAttribute("name", n);
 
             return ju;
         }
-        public static jsutil createById(string name)
+        public static JsUtil createById(string name)
         {
-            jsutil ju = new jsutil();
+            JsUtil ju = new JsUtil();
             ju.selectByAttribute("id", name);
 
             return ju;
         }
-        public static jsutil createByIds(string[] ids)
+        public static JsUtil createByIds(string[] ids)
         {
-            jsutil ju = new jsutil();
+            JsUtil ju = new JsUtil();
             ju.jsSelector = "";
             foreach (var n in ids)
                 ju.addSelectByAttribute("id", n);
