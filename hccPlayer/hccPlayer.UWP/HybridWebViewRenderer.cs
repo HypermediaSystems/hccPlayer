@@ -36,8 +36,7 @@ namespace hccPlayer.UWP
                 Control.ScriptNotify -= OnWebViewScriptNotify;
             }
             if (e.NewElement != null)
-            {
-                // Control.NavigationCompleted += OnWebViewNavigationCompleted;
+            {                
                 Control.NavigationStarting += Control_NavigationStarting;
                 Control.ScriptNotify += OnWebViewScriptNotify;
                 

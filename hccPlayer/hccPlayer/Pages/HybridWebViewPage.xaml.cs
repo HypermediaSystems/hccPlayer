@@ -24,9 +24,13 @@ namespace hccPlayer
         {
             InitializeComponent();
 
-            string serverUrl = hybridWebView.startServer("http://www.leaflon.test", SQL);
+            // ToDo retrieve this infos from the database:
+            // 
+            Task.Run(async() =>
+               await hybridWebView.startServer(SQL)
+            ).Wait();
 
-            hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), "index.html");
+           // hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());//  "index.html");
 
             // this is defined in the XAML file
             hybridWebView.RegisterAction(data => {

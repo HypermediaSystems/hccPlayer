@@ -32,8 +32,7 @@ namespace hccPlayer
         {
             get { return (bool)GetValue(NavigatingProperty); }
             set {
-                SetValue(NavigatingProperty, value);
-                // this.IsVisible = !value;
+                SetValue(NavigatingProperty, value);                
             }
         }
 
@@ -84,16 +83,16 @@ namespace hccPlayer
         private SqLiteCache sqLiteCache = null;
         public HttpCachedClient hc;
         private string baseUrl;
-        public string startServer(string baseUrl, ISql SQL)
+        public async Task<string> startServer( ISql SQL)
         {
-            this.baseUrl = baseUrl;
-            if (this.baseUrl.EndsWith("/",StringComparison.CurrentCultureIgnoreCase))
-                this.baseUrl = this.baseUrl.Substring(0, this.baseUrl.Length - 1);
-
-            this.SQL = SQL; //  Xamarin.Forms.DependencyService.Get<iSQL>();
+            this.SQL = SQL; 
             this.sqLiteCache = new SqLiteCache(SQL, "");
             this.hc = new HttpCachedClient(this.sqLiteCache);
-            
+
+            this.baseUrl = await this.hc.GetCachedMetadataAsync("hcc.url");
+            if (this.baseUrl.EndsWith("/", StringComparison.CurrentCultureIgnoreCase))
+                this.baseUrl = this.baseUrl.Substring(0, this.baseUrl.Length - 1);
+
 
             this.ws = Xamarin.Forms.DependencyService.Get<HttpCachedServer.iHttpServer>();
             this.ws.baseUrl = baseUrl;
@@ -192,6 +191,15 @@ namespace hccPlayer
 
             return this.ws.url_port; 
         }
+        public string getDefaultHTML()
+        {
+            string ret = "";
+            Task.Run(async() => {
+                ret = await this.hc.GetCachedMetadataAsync("hcc.defaultHTML");
+            }).Wait();
+            return ret;
+
+        }
         public string getServerSite()
         {
             return this.ws.url_port_site;
@@ -207,7 +215,6 @@ namespace hccPlayer
         }
         public byte[] pathRelUrls(byte[] bytes)
         {
-            string html = Encoding.UTF8.GetString(bytes,0,bytes.Length);
             Byte[] htmlbytes = null;
 
             using (MemoryStream readStream = new MemoryStream(bytes))

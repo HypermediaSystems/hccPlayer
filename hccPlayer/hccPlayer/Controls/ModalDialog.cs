@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace hccPlayer
 {
-    class ModalDialog
+    static class ModalDialog
     {
         public enum Buttons
         {
@@ -32,6 +32,7 @@ namespace hccPlayer
         {
             StackLayout mdFrame = new StackLayout
             {
+                StyleId = "mdFrame",
                 WidthRequest = grid.Width,
                 HeightRequest = grid.Height,
                 Orientation = StackOrientation.Vertical,
@@ -78,6 +79,7 @@ namespace hccPlayer
 
             StackLayout slCenter = new StackLayout
             {
+                StyleId = "slCenter",
                 // Padding = pad,
                 // Margin=pad,
                 Padding = 20,
@@ -88,6 +90,7 @@ namespace hccPlayer
             };
             StackLayout slButton = new StackLayout
             {
+                StyleId = "slButton",   
                 // Padding = pad,
                 // Margin=pad,
                 Padding = 5,
@@ -96,7 +99,7 @@ namespace hccPlayer
                 Spacing = 0,
                 BackgroundColor = Color.Transparent
             };
-
+            
             {
                 slCenter.Children.Add(new Frame {
                     Padding=5,

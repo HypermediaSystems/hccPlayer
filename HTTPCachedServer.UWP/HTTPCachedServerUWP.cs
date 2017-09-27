@@ -24,9 +24,6 @@ namespace HttpCachedServer.UWP.Implementation
 
         private StreamSocketListener listener;
 
-        // private readonly Func<HttpRequestMessage, string> _responderMethod;
-
-
         public HTTPCachedServerUWP()
         {
             string ipAddress = "localhost";

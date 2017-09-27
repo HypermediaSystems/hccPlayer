@@ -9,9 +9,9 @@ namespace hccPlayer
 {
     class JQuery
     {
-        private HybridWebView hybridWebView;
-        private JsUtil ju;
-        // JQuery("#btnK,#btnG").css("background-color","red");
+        private readonly HybridWebView hybridWebView;
+        private readonly JsUtil ju;
+
         public JQuery(HybridWebView hybridWebView,string selector)
         {
             this.hybridWebView = hybridWebView;
@@ -136,7 +136,6 @@ namespace hccPlayer
             return await this.ju.executeJSON(this.hybridWebView);
         }
 
-
         public async Task<JArray> enumerate(string enumList)
         {
             string[] parts = enumList.Split(',');
@@ -144,7 +143,6 @@ namespace hccPlayer
             this.ju.clear();
             ju.setJSONReturn(parts); // new string[] { "name", "id", "css.line-height" });
             return await ju.executeJSON(hybridWebView);
-
         }
         public async Task<string> enumerateStr(string enumList)
         {
