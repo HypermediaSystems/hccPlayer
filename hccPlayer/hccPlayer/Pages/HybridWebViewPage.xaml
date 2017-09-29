@@ -17,22 +17,32 @@
                 <Button Text=">>>" x:Name="btnMenu" Clicked="btnMenu_Clicked"/>
             </StackLayout>
             <StackLayout x:Name="extendedMenu" Grid.Row="1" Grid.Column="0">
-                <Button Text="Restore" x:Name="btnRestoreTitle" local:Tag.Tag="frameRestore" Clicked="btnAccordionTitle_Clicked"/>
+                <Button Text="Restore" x:Name="btnRestoreTitle" local:HccXAML.Tag="frameRestore" Clicked="btnAccordionTitle_Clicked"/>
                 <Frame OutlineColor="Gray" x:Name="frameRestore"  IsVisible="false">
                     <StackLayout>
                         <Entry x:Name="tbRestoreUrl" Text="http://192.168.30.103:3000/"/>
+                        <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="2" >
+                            <Switch x:Name="cbNodeJS" IsToggled="true" />
+                            <Label Text="is NodeJS"  />
+                        </StackLayout>
+                        <Entry x:Name="tbRestoreUser" Text="" Placeholder="Username">
+                            <Entry.Behaviors>
+                                <local:EmailValidatorBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry x:Name="tbRestorePWD" Text="" Placeholder="Password"/>
                         <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
                         <Button Text="Backup" x:Name="btnBackup" Clicked="btnBackup_Clicked"/>
                     </StackLayout>
                 </Frame>
-                <Button Text="Navigate" x:Name="btnNavigateTitle" local:Tag.Tag="frameNavigate" Clicked="btnAccordionTitle_Clicked"/>
+                <Button Text="Navigate" x:Name="btnNavigateTitle" local:HccXAML.Tag="frameNavigate" Clicked="btnAccordionTitle_Clicked"/>
                 <Frame OutlineColor="Gray" x:Name="frameNavigate"  IsVisible="false">
                 <StackLayout >
                     <Entry x:Name="tbUrl" Text="https://www.google.de"/>
                     <Button Text="goto"  Clicked="btnGoto_Clicked"/>
                 </StackLayout>
                 </Frame>
-                <Button Text="Explore" x:Name="btnExploreTitle" local:Tag.Tag="frameExplore" Clicked="btnAccordionTitle_Clicked"/>
+                <Button Text="Explore" x:Name="btnExploreTitle" local:HccXAML.Tag="frameExplore" Clicked="btnAccordionTitle_Clicked"/>
                 <Frame OutlineColor="Gray" x:Name="frameExplore" IsVisible="false">
                     <StackLayout >
                         <Button Text="explore" x:Name="explore" Clicked="explore_Clicked"/>

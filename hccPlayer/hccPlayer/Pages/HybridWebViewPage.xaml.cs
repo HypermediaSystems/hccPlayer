@@ -20,17 +20,27 @@ namespace hccPlayer
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HybridWebViewPage : ContentPage
     {
+        
         public HybridWebViewPage(ISql SQL)
         {
             InitializeComponent();
 
-            // ToDo retrieve this infos from the database:
-            // 
-            Task.Run(async() =>
-               await hybridWebView.startServer(SQL)
-            ).Wait();
+            try
+            {
+                Task.Run(async () =>
+                   await hybridWebView.startServer(SQL)
+                ).Wait();
 
-           // hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());//  "index.html");
+                hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());
+            }
+            catch (Exception ex)
+            {
+                string msg = "ERROR: " + ex.ToString();
+                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK,() => { });
+                
+                // ToDo log the error
+                // throw;
+            }
 
             // this is defined in the XAML file
             hybridWebView.RegisterAction(data => {
@@ -307,32 +317,57 @@ namespace hccPlayer
             await hybridWebView.EvaluateJavascript(jsCommand);
         }
 
-        private async void btnRestore_Clicked(object sender, EventArgs e)
+        private void btnRestore_Clicked(object sender, EventArgs e)
         {
-            string serverUrl = tbRestoreUrl.Text.Trim();
-            serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
-            try
-            {
-                Boolean ret = await hybridWebView.hc.RestoreAsync(serverUrl);
+            string msg = "Do you want to restore the local database?" + Environment.NewLine + "This will overwrite all local data.";
+            ModalDialog.showQuestion(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.YESNO,
+                async () =>
+                {
+                    string serverUrl = tbRestoreUrl.Text.Trim();
+                    if (cbNodeJS.IsToggled)
+                    {
+                        serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
+                    }
+                    string user = tbRestoreUser.Text.Trim();
+                    string pwd = tbRestorePWD.Text.Trim();
 
+                    if( !string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(pwd))
+                    {
+                        var byteArray = new UTF8Encoding().GetBytes(user + ":" + pwd );
+                        hybridWebView.hc.authenticationHeaderValue = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    }
 
-            }
-            catch (Exception)
-            {
-                // ToDo log this error
-                throw;
-            }
+                    try
+                    {
+                        Boolean ret = await hybridWebView.hc.RestoreAsync(serverUrl);
+                    }
+                    catch (Exception)
+                    {
+                        // ToDo log this error
+                        throw;
+                    }
+                }, () => { });
         }
         private void btnBackup_Clicked(object sender, EventArgs e)
         {
-            ModalDialog.showMessage(gridLayout, "HccPlayer", "Meldung", ModalDialog.Buttons.OK, () =>
-            {
-
                 ModalDialog.showQuestion(gridLayout, "HccPlayer", "Do you want to backup the local database?", ModalDialog.Buttons.YESNO,
                     async () =>
                 {
                     string serverUrl = tbRestoreUrl.Text.Trim();
-                    serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
+                    if ( cbNodeJS.IsToggled )
+                    {
+                        serverUrl = hcc.HccUtil.url_join(serverUrl, "download?url=" + HttpCachedClient._dbName + ".sqlite");
+                    }
+
+                    string user = tbRestoreUser.Text.Trim();
+                    string pwd = tbRestorePWD.Text.Trim();
+
+                    if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(pwd))
+                    {
+                        var byteArray = new UTF8Encoding().GetBytes(user + ":" + pwd);
+                        hybridWebView.hc.authenticationHeaderValue = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    }
+
                     try
                     {
                         Boolean ret = await hybridWebView.hc.BackupAsync(serverUrl);
@@ -343,12 +378,11 @@ namespace hccPlayer
                         throw;
                     }
                 }, () => { });
-            });
         }
         private void btnAccordionTitle_Clicked(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            string tag = Tag.GetTag(btn);
+            string tag = HccXAML.GetTag(btn);
 
             Frame sl = btn.Parent.FindByName<Frame>(tag);
             if( sl != null )
