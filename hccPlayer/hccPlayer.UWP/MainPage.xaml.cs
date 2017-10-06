@@ -21,6 +21,8 @@ namespace hccPlayer.UWP
         {
             this.InitializeComponent();
 
+            HMS.Net.Http.HttpCachedClient._dbName = "hccMap3D";
+
             LoadApplication(new hccPlayer.App(new HMS.Net.Http.UWP.SQLImplementation.SqlUwp()));
         }
     }

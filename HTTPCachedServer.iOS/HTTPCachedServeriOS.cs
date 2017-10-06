@@ -82,6 +82,10 @@ namespace HttpCachedServer.iOS.Implementation
             _listener.Stop();
             _listener.Close();
         }
+        public void ClearCache()
+        {
+            // ??
+        }
         public string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

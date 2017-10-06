@@ -83,9 +83,15 @@ namespace hccPlayer
         private SqLiteCache sqLiteCache = null;
         public HttpCachedClient hc;
         private string baseUrl;
-        public async Task<string> reStartServer()
+        public async Task<string> reStartServer(ISql SQL, string newName)
         {
+            this.SQL = SQL;
             this.stopServer();
+
+            if( !string.IsNullOrEmpty(newName) )
+            {
+                this.SQL.SetDBName(newName);
+            }
 
             return await this.startServer(this.SQL);
         }
@@ -298,7 +304,11 @@ namespace hccPlayer
         }
         public void stopServer()
         {
-            this.ws.Stop();
+            this.ws?.Stop();
+        }
+        public void ClearCache()
+        {
+
         }
     }
 }

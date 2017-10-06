@@ -13,7 +13,7 @@ namespace HttpCachedServer
     {
         void Run();
         void Stop();
-
+        void ClearCache();
         string baseUrl { get; set; }
         string GetLocalIPAddress();
         string url { get; set; }

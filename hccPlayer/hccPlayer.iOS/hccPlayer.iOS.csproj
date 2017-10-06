@@ -118,11 +118,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HMSCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.56\lib\Xamarin.iOS10\HMSCache.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\Xamarin.iOS10\HMSCache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HMSCache.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.56\lib\Xamarin.iOS10\HMSCache.iOS.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\Xamarin.iOS10\HMSCache.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">

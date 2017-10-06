@@ -17,58 +17,59 @@
                 <Button Text=">>>" x:Name="btnMenu" Clicked="btnMenu_Clicked"/>
             </StackLayout>
             <StackLayout x:Name="extendedMenu" Grid.Row="1" Grid.Column="0">
-                <Button Text="Restore" x:Name="btnRestoreTitle" local:HccXAML.Tag="frameRestore" Clicked="btnAccordionTitle_Clicked"/>
-                <Frame OutlineColor="Gray" x:Name="frameRestore"  IsVisible="false">
+                <Button Text="Download" x:Name="btnDownloadTitle" local:HccXAML.Tag="frameDownload" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameDownload"  IsVisible="false">
                     <StackLayout>
-                        <Entry x:Name="tbRestoreUrl" Text="http://192.168.30.103:3000/"/>
-                        <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="2" >
-                            <Switch x:Name="cbNodeJS" IsToggled="true" />
-                            <Label Text="is NodeJS"  />
-                        </StackLayout>
-                        <Entry x:Name="tbRestoreUser" Text="" Placeholder="Username">
+                        <Entry x:Name="tbDownloadUrl" Text="http://192.168.30.103:3000/download?url=hcc.sqlite"/>
+                        <Entry x:Name="tbDownloadDBName" Text="hcc"/>
+                        <Entry x:Name="tbDownloadUser" Text="" Placeholder="Username">
                             <Entry.Behaviors>
                                 <local:EmailValidatorBehavior />
                             </Entry.Behaviors>
                         </Entry>
-                        <Entry x:Name="tbRestorePWD" Text="" Placeholder="Password"/>
-                        <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
-                        <Button Text="Backup" x:Name="btnBackup" Clicked="btnBackup_Clicked"/>
-                        <Button Text="Select" x:Name="btnSelect" Clicked="btnSelect_Clicked"/>
+                        <Entry x:Name="tbDownloadPWD" Text="" Placeholder="Password"/>
+                        <Button Text="Download" x:Name="btnDownload" Clicked="btnDownload_Clicked"/>
                     </StackLayout>
                 </Frame>
-                <Button Text="Navigate" x:Name="btnNavigateTitle" local:HccXAML.Tag="frameNavigate" Clicked="btnAccordionTitle_Clicked"/>
-                <Frame OutlineColor="Gray" x:Name="frameNavigate"  IsVisible="false">
-                <StackLayout >
-                    <Entry x:Name="tbUrl" Text="https://www.google.de"/>
-                    <Button Text="goto"  Clicked="btnGoto_Clicked"/>
-                </StackLayout>
+
+                <Button Text="Upload" x:Name="btnUploadTitle" local:HccXAML.Tag="frameUpload" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameUpload"  IsVisible="false">
+                    <StackLayout>
+                        <Entry x:Name="tbUploadUrl" Text="http://192.168.30.103:3000/download?url=hcc.sqlite"/>
+                        <Entry x:Name="tbUploadDBName" Text="hcc"/>
+                        <Entry x:Name="tbUploadUser" Text="" Placeholder="Username">
+                            <Entry.Behaviors>
+                                <local:EmailValidatorBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry x:Name="tbUploadPWD" Text="" Placeholder="Password"/>
+                        <Button Text="Upload" x:Name="btnBackup" Clicked="btnUpload_Clicked"/>
+
+                    </StackLayout>
                 </Frame>
-                <Button Text="Explore" x:Name="btnExploreTitle" local:HccXAML.Tag="frameExplore" Clicked="btnAccordionTitle_Clicked"/>
-                <Frame OutlineColor="Gray" x:Name="frameExplore" IsVisible="false">
-                    <StackLayout >
-                        <Button Text="explore" x:Name="explore" Clicked="explore_Clicked"/>
-                        <Picker x:Name="cmbSamples"></Picker>
-                        <Editor x:Name="code" HeightRequest="500" Text="navigate('https://www.bing.de')">
-                            <Editor.BackgroundColor>
-                                <OnPlatform x:TypeArguments="Color"
-                                iOS="#eeeeee"
-                                Android="#eeeeee"
-                                WinPhone="#eeeeee" />
-                            </Editor.BackgroundColor>
-                        </Editor>
-                        <Button Text="execute" x:Name="btnExecute" Clicked="btnExecute_Clicked"/>
-                        <Editor x:Name="lblIDs" Text="..." HeightRequest = "500"/>
+
+                <Button Text="Select" x:Name="btnSelectTitle" local:HccXAML.Tag="frameSelect" Clicked="btnAccordionTitle_Clicked"/>
+                <Frame OutlineColor="Gray" x:Name="frameSelect"  IsVisible="false">
+                <StackLayout >
+                        <Picker x:Name="cmbSQLFiles" HorizontalOptions="FillAndExpand">
+                            <Picker.Items>
+                                <x:String>loading ...</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Button Text="Select" x:Name="btnSelect" Clicked="btnSelect_Clicked"/>
                     </StackLayout>
                 </Frame>
 
             </StackLayout>
-
-            <!-- Uri="http://www.google.de"   -->
-            <local:HybridWebView x:Name="hybridWebView"  Grid.Row="1" Grid.Column="1" 
+            <StackLayout x:Name="slHybridWebView" Grid.Row="1" Grid.Column="1" >
+                <local:HybridWebView x:Name="hybridWebView"  
                                  HorizontalOptions="LayoutOptions.FillAndExpand" 
                                  VerticalOptions="LayoutOptions.FillAndExpand"
                                  Uri="http://localhost:8080"
                                  />
+
+            </StackLayout>
 
         </Grid>
 

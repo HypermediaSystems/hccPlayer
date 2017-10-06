@@ -37,6 +37,8 @@ namespace HTTPCachedServer.NET
         {
             webServer.Stop();
         }
+        public void ClearCache()
+        { }
         public void Dispose()
         {
             this.webServer = null;

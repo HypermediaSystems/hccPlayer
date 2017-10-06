@@ -106,7 +106,6 @@ namespace hccPlayer.UWP
             Element.InvokeAction(e.Value);
         }
 
-        
     }
    
 

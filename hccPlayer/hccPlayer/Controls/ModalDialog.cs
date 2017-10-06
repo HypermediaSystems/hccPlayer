@@ -101,16 +101,45 @@ namespace hccPlayer
             };
             
             {
-                slCenter.Children.Add(new Frame {
-                    Padding=5,
-                    Content = new Label {
+
+                StackLayout slX = new StackLayout
+                {
+                    Orientation = StackOrientation.Horizontal,
+                    HorizontalOptions = LayoutOptions.EndAndExpand,
+                    ///VerticalOptions = LayoutOptions.FillAndExpand,
+                    BackgroundColor = Color.Transparent
+                };
+                Button btnX = new Button {
+                    Text = "X",
+                    BackgroundColor = Color.Transparent
+                };
+                btnX.Clicked += (object sender, EventArgs e) => { grid.Children.Remove(mdFrame); onCancel(); };
+                slX.Children.Add(btnX);
+                slCenter.Children.Add(slX);
+
+                Frame frame = new Frame
+                {
+                    Padding = 5
+                };
+                if( !string.IsNullOrEmpty(title))
+                {
+                    frame.Content = new Label
+                    {
                         Text = title,
-                        FontAttributes=FontAttributes.Bold,
+                        FontAttributes = FontAttributes.Bold,
                         HorizontalOptions = LayoutOptions.Center,
                         Margin = 5
-                    }
-                });
-                slCenter.Children.Add(new Label { Text = msg, HorizontalOptions = LayoutOptions.Center, Margin = 10 });
+                    };
+                }
+                slCenter.Children.Add(frame);
+
+
+                ScrollView sv = new ScrollView();
+                sv.Content = new Label {
+                    Text = msg,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Margin = 10 };
+                slCenter.Children.Add(sv);
 
                 slCenter.Children.Add(slButton);
                 {

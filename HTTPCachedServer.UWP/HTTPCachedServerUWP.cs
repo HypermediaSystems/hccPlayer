@@ -33,6 +33,7 @@ namespace HttpCachedServer.UWP.Implementation
 
         public async void Run()
         {
+            this.Stop();
             this.listener = new StreamSocketListener();
             this.listener.ConnectionReceived += (s, e) => ProcessRequestAsync(e.Socket);
             await this.listener.BindServiceNameAsync(this.port.ToString());
@@ -40,9 +41,15 @@ namespace HttpCachedServer.UWP.Implementation
 
         public void Stop()
         {
-
+            this.listener?.Dispose();
         }
-
+        public void ClearCache()
+        {
+            Task.Run(async () =>
+            {
+                await Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
+            }).ConfigureAwait(false);
+        }
         public string GetLocalIPAddress()
         {
             List<string> ipAddresses = new List<string>();
