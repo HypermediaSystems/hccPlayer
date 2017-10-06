@@ -33,6 +33,7 @@
                         <Entry x:Name="tbRestorePWD" Text="" Placeholder="Password"/>
                         <Button Text="Restore" x:Name="btnRestore" Clicked="btnRestore_Clicked"/>
                         <Button Text="Backup" x:Name="btnBackup" Clicked="btnBackup_Clicked"/>
+                        <Button Text="Select" x:Name="btnSelect" Clicked="btnSelect_Clicked"/>
                     </StackLayout>
                 </Frame>
                 <Button Text="Navigate" x:Name="btnNavigateTitle" local:HccXAML.Tag="frameNavigate" Clicked="btnAccordionTitle_Clicked"/>

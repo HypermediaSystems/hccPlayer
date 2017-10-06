@@ -25,23 +25,8 @@ namespace hccPlayer
         {
             InitializeComponent();
 
-            try
-            {
-                Task.Run(async () =>
-                   await hybridWebView.startServer(SQL)
-                ).Wait();
-
-                hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());
-            }
-            catch (Exception ex)
-            {
-                string msg = "ERROR: " + ex.ToString();
-                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK,() => { });
-                
-                // ToDo log the error
-                // throw;
-            }
-
+            startServer(SQL);
+            
             // this is defined in the XAML file
             hybridWebView.RegisterAction(data => {
                 try
@@ -195,6 +180,46 @@ namespace hccPlayer
 
             });
         }
+        private void startServer(ISql SQL)
+        {
+            try
+            {
+                Task.Run(async () =>
+                   await hybridWebView.startServer(SQL)
+                ).Wait();
+
+                hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());
+            }
+            catch (Exception ex)
+            {
+                string msg = "ERROR: " + ex.ToString();
+                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
+
+                // ToDo log the error
+                // throw;
+            }
+
+        }
+        private void reStartServer()
+        {
+            try
+            {
+                Task.Run(async () =>
+                   await hybridWebView.reStartServer()
+                ).Wait();
+
+                hybridWebView.Uri = hcc.HccUtil.url_join(hybridWebView.getServer(), hybridWebView.getDefaultHTML());
+            }
+            catch (Exception ex)
+            {
+                string msg = "ERROR: " + ex.ToString();
+                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
+
+                // ToDo log the error
+                // throw;
+            }
+
+        }
 #if false
         private async void DoPopup()
         {     
@@ -340,6 +365,9 @@ namespace hccPlayer
                     try
                     {
                         Boolean ret = await hybridWebView.hc.RestoreAsync(serverUrl);
+
+                        // start the server
+                        this.reStartServer();
                     }
                     catch (Exception)
                     {
@@ -388,9 +416,13 @@ namespace hccPlayer
             if( sl != null )
                 sl.IsVisible = !sl.IsVisible;
         }
-       
-        
 
+        private void btnSelect_Clicked(object sender, EventArgs e)
+        {
+            // select a SqLite file from localStorage
+
+            // load the index.html
+        }
     }
     class Sample
     {

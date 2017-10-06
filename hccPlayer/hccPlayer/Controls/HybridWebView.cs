@@ -83,6 +83,12 @@ namespace hccPlayer
         private SqLiteCache sqLiteCache = null;
         public HttpCachedClient hc;
         private string baseUrl;
+        public async Task<string> reStartServer()
+        {
+            this.stopServer();
+
+            return await this.startServer(this.SQL);
+        }
         public async Task<string> startServer( ISql SQL)
         {
             this.SQL = SQL; 
