@@ -24,11 +24,21 @@ namespace hccPlayer
         public static string strOK = "OK";
         public static string strCancel = "Cancel";
 
-        public static void showMessage(Grid grid, string title, string msg, Buttons buttons, Action onOk)
+        public static Grid grid;
+
+        public static void showMessage( string msg)
         {
-            showQuestion(grid, title, msg, buttons, onOk, () => { });
+            showQuestion( "", msg, ModalDialog.Buttons.OK, () => { }, () => { });
         }
-        public static void showQuestion(Grid grid, string title, string msg, Buttons buttons, Action onOk, Action onCancel)
+        public static void showError(string msg)
+        {
+            showQuestion("", msg, ModalDialog.Buttons.OK, () => { }, () => { });
+        }
+        public static void showMessage(string title, string msg, Buttons buttons, Action onOk)
+        {
+            showQuestion(title, msg, buttons, onOk, () => { });
+        }
+        public static void showQuestion(string title, string msg, Buttons buttons, Action onOk, Action onCancel)
         {
             StackLayout mdFrame = new StackLayout
             {

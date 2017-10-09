@@ -88,6 +88,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -118,11 +119,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HMSCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\Xamarin.iOS10\HMSCache.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.65\lib\Xamarin.iOS10\HMSCache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HMSCache.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\Xamarin.iOS10\HMSCache.iOS.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.65\lib\Xamarin.iOS10\HMSCache.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -131,6 +132,14 @@
     </Reference>
     <Reference Include="PCLStorage.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.3.0.1\lib\Xamarin.iOS10\Plugin.Settings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.3.0.1\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">

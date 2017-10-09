@@ -53,11 +53,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="HMSCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\MonoAndroid10\HMSCache.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.65\lib\MonoAndroid10\HMSCache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HMSCache.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.62\lib\MonoAndroid10\HMSCache.Android.dll</HintPath>
+      <HintPath>..\..\packages\HttpCachedClient.HMS.1.0.65\lib\MonoAndroid10\HMSCache.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Android" />
@@ -69,6 +69,14 @@
     </Reference>
     <Reference Include="PCLStorage.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\monoandroid\PCLStorage.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.3.0.1\lib\MonoAndroid10\Plugin.Settings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.3.0.1\lib\MonoAndroid10\Plugin.Settings.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -142,6 +150,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="JSBridge.cs" />
     <Compile Include="MainActivity.cs" />

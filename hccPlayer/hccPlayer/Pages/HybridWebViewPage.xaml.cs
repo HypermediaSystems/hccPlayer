@@ -25,6 +25,8 @@ namespace hccPlayer
         {
             InitializeComponent();
 
+            ModalDialog.grid = gridLayout;
+
             this.SQL = SQL;
             startServer(SQL);
 
@@ -45,13 +47,19 @@ namespace hccPlayer
             var files = await rootFolder.GetFilesAsync();
 
             cmbSQLFiles.Items.Clear();
+            int nr = 0;
             foreach(var f in files)
             {
                 if (f.Name.EndsWith(".sqlite", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    if (f.Name == HttpCachedClient._dbName)
+                        nr = cmbSQLFiles.Items.Count;
                     cmbSQLFiles.Items.Add(f.Name);
                 }
             }
+
+            cmbSQLFiles.SelectedIndex = nr;
+
             return files.Count;
         }
         private void startServer(ISql SQL)
@@ -67,10 +75,10 @@ namespace hccPlayer
             catch (Exception ex)
             {
                 string msg = "ERROR: " + ex.ToString();
-                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
+                ModalDialog.showMessage( "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
 
                 // ToDo log the error
-                // throw;
+                
             }
 
         }
@@ -87,7 +95,7 @@ namespace hccPlayer
             catch (Exception ex)
             {
                 string msg = "ERROR: " + ex.ToString();
-                ModalDialog.showMessage(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
+                ModalDialog.showMessage( "HccPlayer", msg, ModalDialog.Buttons.OK, () => { });
 
                 // ToDo log the error
             }
@@ -145,15 +153,64 @@ namespace hccPlayer
 
             await hybridWebView.EvaluateJavascript(jsCommand);
         }
+        private async void btnFillDownload_Clicked(object sender, EventArgs e)
+        {
+            string serverUrl = tbDownloadUrl.Text.Trim();
+            string user = tbDownloadUser.Text.Trim();
+            string pwd = tbDownloadPWD.Text.Trim();
 
+            using (HttpClient httpCient = new HttpClient())
+            {
+                if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(pwd))
+                {
+                    var byteArray = new UTF8Encoding().GetBytes(user + ":" + pwd);
+                    httpCient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                }
+                try
+                {
+                    using (HttpResponseMessage response = await httpCient.GetAsync(serverUrl, HttpCompletionOption.ResponseContentRead).ConfigureAwait(true))
+                    {
+                        cmbDownloadSQLFiles.Items.Clear();
+
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+
+                                var lst = Newtonsoft.Json.JsonConvert.DeserializeObject<JsonSqLite[]>(await content.ReadAsStringAsync());
+                                foreach(var s in lst)
+                                {
+                                    cmbDownloadSQLFiles.Items.Add(s.file);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            cmbDownloadSQLFiles.Items.Add("Error " + response.StatusCode);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModalDialog.showError("Error: " + ex.ToString());
+                    // ToDo log this error
+                }
+
+            }
+        }
         private void btnDownload_Clicked(object sender, EventArgs e)
         {
-            string msg = "Do you want to Download a database?" + Environment.NewLine;
-            ModalDialog.showQuestion(gridLayout, "HccPlayer", msg, ModalDialog.Buttons.YESNO,
+
+            if (cmbDownloadSQLFiles.SelectedItem == null)
+            {
+                return;
+            }
+            string DBName = cmbDownloadSQLFiles.SelectedItem.ToString();
+            string msg = "Do you want to download the database " + DBName  + "? " + Environment.NewLine;
+            ModalDialog.showQuestion( "HccPlayer", msg, ModalDialog.Buttons.YESNO,
                 async () =>
                 {
                     string serverUrl = tbDownloadUrl.Text.Trim();
-                    string DBName = tbDownloadDBName.Text.Trim();
                     string user = tbDownloadUser.Text.Trim();
                     string pwd = tbDownloadPWD.Text.Trim();
 
@@ -162,25 +219,29 @@ namespace hccPlayer
                         var byteArray = new UTF8Encoding().GetBytes(user + ":" + pwd );
                         hybridWebView.hc.authenticationHeaderValue = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     }
-
+                    string dbUrl = serverUrl;
+                    int pos = dbUrl.LastIndexOf("/",StringComparison.CurrentCultureIgnoreCase);
+                    if (pos > 0)
+                        dbUrl = dbUrl.Substring(0, pos+1);
+                    dbUrl += DBName;
                     try
                     {
-                        HttpCachedClient._dbName = DBName;
-                        Boolean ret = await hybridWebView.hc.RestoreAsync(serverUrl);
+                        Boolean ret = await hybridWebView.hc.RestoreAsync(dbUrl, DBName);
 
-                        // start the server
-                        this.reStartServer(DBName);
+                        // fill the list
+                        await loadFiles();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         // ToDo log this error
-                        throw;
+                        ModalDialog.showError("Error: " + ex.ToString());
                     }
+
                 }, () => { });
         }
         private void btnUpload_Clicked(object sender, EventArgs e)
         {
-                ModalDialog.showQuestion(gridLayout, "HccPlayer", "Do you want to backup the local database?", ModalDialog.Buttons.YESNO,
+                ModalDialog.showQuestion( "HccPlayer", "Do you want to backup the local database?", ModalDialog.Buttons.YESNO,
                     async () =>
                 {
                     string serverUrl = tbUploadUrl.Text.Trim();
@@ -198,10 +259,10 @@ namespace hccPlayer
                     {
                         Boolean ret = await hybridWebView.hc.BackupAsync(serverUrl);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         // ToDo log this error
-                        throw;
+                        ModalDialog.showError("Error: " + ex.ToString());
                     }
                 }, () => { });
         }
@@ -221,23 +282,27 @@ namespace hccPlayer
             {
                 string fName = cmbSQLFiles.SelectedItem.ToString();
 
-                ModalDialog.showQuestion(gridLayout, "", "Do you want to start " + fName, ModalDialog.Buttons.YESNO,
+                ModalDialog.showQuestion( "", "Do you want to set " + fName + " as startup DB?", ModalDialog.Buttons.YESNO,
                     () =>
                     {
-                        slHybridWebView.Children.Clear();
-                        hybridWebView = new HybridWebView {
-                            HorizontalOptions = LayoutOptions.FillAndExpand,
-                            VerticalOptions = LayoutOptions.FillAndExpand
-                        };
-                        slHybridWebView.Children.Add(this.hybridWebView);
-
-                        reStartServer(fName);
+                        // slHybridWebView.Children.Clear();
+                        // hybridWebView = new HybridWebView {
+                        //     HorizontalOptions = LayoutOptions.FillAndExpand,
+                        //     VerticalOptions = LayoutOptions.FillAndExpand
+                        // };
+                        // slHybridWebView.Children.Add(this.hybridWebView);
+                        // 
+                        // reStartServer(fName);
+                        hccPlayer.Helpers.Settings.LastSqLite = fName;
+                        ModalDialog.showMessage( "", "You have to restart the app in order to apply the changed settings.", ModalDialog.Buttons.OK, () => { });
                     },
                     () =>
                     {
                     });
             }
         }
+
+        
     }
     class Sample
     {
@@ -256,5 +321,12 @@ namespace hccPlayer
         {
             return this.code;
         }
+    }
+    class JsonSqLite
+    {
+        public string name {  get;set;}
+        public string file { get; set; }
+
+
     }
 }
